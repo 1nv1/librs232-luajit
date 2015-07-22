@@ -1,3 +1,10 @@
+/*
+ *  librs232.c
+ *  Author: Nelson Lombardo (C) 2013
+ *  e-mail: nelson.lombardo@gmail.com
+ *  License: MIT
+ */
+
 #include "librs232.h"
 
 int serial_open(char *serial_name, speed_t baud)
