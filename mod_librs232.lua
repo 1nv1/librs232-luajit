@@ -12,12 +12,15 @@ function RS232:open(port_name, baud_rate, timeout_usec)
 end 
 
 function RS232:read()
-	count =  self.port.librs232_read(self.dev, self.datos, self.lenBuffer)
-	self.datos[count] = 0
-	return count, self.ffi.string(self.datos)
+	count =  self.port.librs232_read(self.dev, self.data, self.lenBuffer)
+	self.data[count] = 0
+	return count, self.ffi.string(self.data)
 end
 
 function RS232:write(data, length)
+	for i = 0, length - 1 do
+		self.data[i] = data[i + 1]
+	end
 	return self.port.librs232_write(self.dev, self.datos, length);
 end
 
@@ -52,7 +55,7 @@ function rs232.new()
 	]]
 
 	lenBuffer = ffi.new ("int", 1024)
-	self.datos = ffi.new ("char[?]", lenBuffer) -- Data buffer
+	self.data = ffi.new ("char[?]", lenBuffer) -- Data buffer
 	self.dev = ffi.new("DEV_RS232[1]")
   self.lenBuffer = lenBuffer
   self.ffi = ffi
