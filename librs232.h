@@ -21,14 +21,24 @@
 #include <fcntl.h>
 #include <string.h>
 
+#define DEV_NAME_LEN	50
+
+typedef struct __DEV_RS232 {
+	int connect;
+	char name[DEV_NAME_LEN];
+	speed_t baud;
+	int fd;
+	int timeout;
+} DEV_RS232;
 
 /*******************************************************************************
  * Public Methods - Direct access to any serial port device define in Linux    *
  ******************************************************************************/
 
-int serial_open(char *serial_name, speed_t baud);
-int serial_read(int serial_fd, char *data, int size, int timeout_usec);
-void serial_send(int serial_fd, char *data, int size);
-void serial_close(int fd);
+void librs232_init(DEV_RS232* dev, char* name, int timeout);
+int librs232_open(DEV_RS232* dev, int baud);
+int librs232_read(DEV_RS232* dev, char *data, int size);
+int librs232_write(DEV_RS232* dev, char *data, int size);
+int librs232_close(DEV_RS232* dev);
 
 #endif

@@ -1,0 +1,6 @@
+local rs232 = require("mod_librs232")
+port = rs232.new()
+port:open("/dev/ttyUSB0", 115200, 10000)
+count, data = port:read()
+print(data)
+port:close()
